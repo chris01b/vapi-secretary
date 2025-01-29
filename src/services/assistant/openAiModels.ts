@@ -2,17 +2,13 @@ import {
   OpenAiModel,
   OpenAiMessage,
   OpenAiModelModel,
-  CreateTransferCallToolDto,
-  CreateFunctionToolDto,
-  CreateEndCallToolDto,
+  OpenAiModelToolsItem,
 } from "@vapi-ai/server-sdk/api/types";
 import { EnvConfig, PricingMode } from "../../config/env.config";
 
 export const getModelConfig = (
   systemMessage: OpenAiMessage,
-  tools: Array<
-    CreateTransferCallToolDto | CreateFunctionToolDto | CreateEndCallToolDto
-  >,
+  tools: OpenAiModelToolsItem[],
   config: EnvConfig
 ): OpenAiModel => {
   switch (config.pricingMode) {

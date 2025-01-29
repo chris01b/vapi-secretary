@@ -5,7 +5,7 @@ import {
 import { EnvConfig } from "../../config/env.config";
 import { getSystemMessage } from "./systemMessage";
 import { getVoiceConfig } from "./voices";
-import { getModelConfig } from "./models";
+import { getModelConfig } from "./openAiModels";
 import { getTools } from "./tools";
 
 export const buildAssistant = (config: EnvConfig): CreateAssistantDto => {
