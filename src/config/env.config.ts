@@ -10,6 +10,7 @@ export interface EnvConfig {
   openaiApiKey: string;
   vapiApiKey: string;
   vapiBaseUrl: string;
+  maxDurationSeconds: number;
   myTimezone: string;
   pricingMode: PricingMode;
   myName: string;
@@ -20,6 +21,7 @@ export const envConfig: EnvConfig = {
   openaiApiKey: process.env.OPENAI_API_KEY || "",
   vapiApiKey: process.env.VAPI_API_KEY || "",
   vapiBaseUrl: process.env.VAPI_BASE_URL || "https://api.vapi.ai",
+  maxDurationSeconds: 300,
   myTimezone: "America/New_York",
   pricingMode: PricingMode.LowCost,
   myName: process.env.MY_NAME || "Chris",

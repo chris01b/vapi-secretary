@@ -18,6 +18,7 @@ export const buildAssistant = (config: EnvConfig): CreateAssistantDto => {
     name: `${config.myName}'s Secretary`,
     backgroundSound: CreateAssistantDtoBackgroundSound.Off,
     backgroundDenoisingEnabled: true,
+    maxDurationSeconds: config.maxDurationSeconds,
     model,
     voice,
   };
