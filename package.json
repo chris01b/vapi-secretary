@@ -1,0 +1,24 @@
+{
+  "name": "vapi-secretary",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy:prod": "vercel deploy --prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "description": "",
+  "dependencies": {
+    "@vapi-ai/server-sdk": "^0.4.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "phone-number-to-timezone": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "@vercel/node": "^5.0.2",
+    "typescript": "^5.7.3"
+  }
+}
