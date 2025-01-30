@@ -34,13 +34,13 @@ export const getAuthenticateUserTool = (
 
   const startMessage: ToolMessageStart = {
     type: "request-start",
-    content: "I am confirming your details. Please stay on the line.",
+    content: "I am verifying your details.",
   };
 
   const delayedMessage: ToolMessageDelayed = {
     type: "request-response-delayed",
-    content: "I'm still confirming your details. One more moment.",
-    timingMilliseconds: 5000,
+    content: "One more moment.",
+    timingMilliseconds: 10000,
   };
 
   return {

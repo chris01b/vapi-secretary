@@ -18,52 +18,76 @@ export const authenticateUser = async (
 
   console.log("authenticateUser:", firstName, lastName, reasonForCalling);
 
-  // TODO: Perform actual authentication logic here
-  const isAuthenticated = true;
+  try {
+    // TODO: Perform actual authentication logic here
+    const isAuthenticated = true;
 
-  if (isAuthenticated) {
-    const completeMessage: ToolMessageComplete = {
-      type: "request-complete",
-      /**
-       * When role=system, `content` is passed to the model in a system message. Example:
-       *     system: default one
-       *     assistant:
-       *     user:
-       *     assistant:
-       *     user:
-       *     assistant:
-       *     user:
-       *     assistant: tool called
-       *     tool: your server response
-       *     <--- system prompt as hint
-       *     ---> model generates response which is spoken
-       * This is useful when you want to provide a hint to the model about what to say next.
-       */
-      content: `Call the transferCall function with '${config.myPhoneNumber}'`,
-      role: ToolMessageCompleteRole.System,
-    };
+    if (isAuthenticated) {
+      const completeMessage: ToolMessageComplete = {
+        type: "request-complete",
+        content: `{
+  "id": "6_transfer",
+  "description": "Transfer the caller to {{name}}.",
+  "instructions": [
+    "Call the 'transferCall' function with {{phoneNumber}}."
+  ],
+  "examples": [
+    "I'm transferring you to {{name}}. Please stay on the line.",
+  ]
+}`,
+        role: ToolMessageCompleteRole.System,
+      };
 
-    const toolCallResult: ToolCallResult = {
-      name,
-      toolCallId,
-      result: "User authenticated successfully.",
-      message: [completeMessage],
-    };
+      const toolCallResult: ToolCallResult = {
+        name,
+        toolCallId,
+        result: `${config.myName} is available.`,
+        message: [completeMessage],
+      };
 
-    return {
-      messageResponse: { results: [toolCallResult] },
-    };
-  } else {
+      return {
+        messageResponse: { results: [toolCallResult] },
+      };
+    } else {
+      const rejectedMessage: ToolMessageComplete = {
+        type: "request-complete",
+        content: `{
+  "id": "7_end_call",
+  "description": "End the call immediately.",
+  "instructions": [
+    "Call the 'endCall' function right now."
+  ],
+  "examples": [
+    "Goodbye!"
+  ]
+}`,
+        role: ToolMessageCompleteRole.System,
+      };
+
+      const toolCallResult: ToolCallResult = {
+        name,
+        toolCallId,
+        result: `${config.myName} is unavailable.`,
+        message: [rejectedMessage],
+      };
+
+      return {
+        messageResponse: { results: [toolCallResult] },
+      };
+    }
+  } catch (error) {
+    console.error("Authentication error:", error);
+
     const failedMessage: ToolMessageFailed = {
       type: "request-failed",
-      content: "Authentication failed. Ending call now.",
+      content: "DEBUG: Authentication failed due to an internal error. Ending call now.",
       endCallAfterSpokenEnabled: true,
     };
 
     const toolCallResult: ToolCallResult = {
       name,
       toolCallId,
-      error: "Authentication failed.",
+      error: "Internal error.",
       message: [failedMessage],
     };
 

@@ -109,29 +109,30 @@ If the caller's response is unclear, ask clarifying questions. If you encounter 
     "Repeat back the reason to the caller and ask for more information."
   ],
   "examples": [
-    "Can you clarify the reason for your call so I can check if {{name}} is available to assist?",
+    "Can you clarify the reason for your call so I can check if {{name}} is available?",
     "So you need to update him about his recruiting process, is that correct?"
   ],
   "transitions": [{
-    "next_step": "5_completion",
+    "next_step": "5_authenticate_user",
     "condition": "Once reason for calling is confirmed."
   }]
 },
 {
-  "id": "5_completion",
-  "description": "Attempt to authenticate user with parameters and proceed with next steps.",
+  "id": "5_authenticate_user",
+  "description": "Authenticate the caller with their provided parameters.",
   "instructions": [
-    "Call the 'authenticateUser' function with the parameters 'firstName', 'lastName', 'reasonForCalling', which contain the user's provided information to initiate the process.",
-    "Once verification is complete, proceed to transfer the caller to {{name}}."
+    "Say nothing and call the 'authenticateUser' function with parameters 'firstName', 'lastName', and 'reasonForCalling'."
   ],
-  "examples": [
-    "Attempting to authenticate your information now.",
-    "I'll transfer you to {{name}} now."
-  ],
-  "transitions": [{
-    "next_step": "Call the transferCall function with '{{phoneNumber}}'",
-    "condition": "Once verification is complete, transfer to {{name}}."
-  }]
+  "transitions": [
+    {
+      "next_step": "6_transfer",
+      "condition": "{{name}} is available."
+    },
+    {
+      "next_step": "7_end_call",
+      "condition": "{{name}} is unavailable."
+    }
+  ]
 }
 ]`,
   };
