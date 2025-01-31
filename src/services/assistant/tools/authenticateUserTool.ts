@@ -37,15 +37,9 @@ export const getAuthenticateUserTool = (
     content: "I am verifying your details.",
   };
 
-  const delayedMessage: ToolMessageDelayed = {
-    type: "request-response-delayed",
-    content: "One more moment.",
-    timingMilliseconds: 10000,
-  };
-
   return {
     type: "function",
     function: authenticateUserFunction,
-    messages: [startMessage, delayedMessage],
+    messages: [startMessage],
   };
 };
