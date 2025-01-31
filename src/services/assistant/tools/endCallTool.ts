@@ -1,24 +1,41 @@
 import {
-  CreateEndCallToolDto,
+  CreateFunctionToolDto,
+  OpenAiFunction,
+  ToolMessageComplete,
   ToolMessageStart,
-  ToolMessageFailed,
 } from "@vapi-ai/server-sdk/api/types";
+import { EnvConfig } from "../../../config/env.config";
 
-export const getEndCallTool = (): CreateEndCallToolDto => {
-  const startMessage: ToolMessageStart = {
-    type: "request-start",
-    content: "Goodbye.",
+export const getEndCallTool = (config: EnvConfig): CreateFunctionToolDto => {
+  const endCallFunction: OpenAiFunction = {
+    name: "endCall",
+    description: `Ends the call with the caller's message for ${config.myName}.`,
+    parameters: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          description: `The message to deliver to ${config.myName}.`,
+        },
+      },
+      required: ["message"],
+    },
   };
 
-  const failedMessage: ToolMessageFailed = {
-    type: "request-failed",
-    content:
-      "DEBUG: Ending call tool failed. This was not your fault. Manually ending call now.",
+  const startMessage: ToolMessageStart = {
+    type: "request-start",
+    content: "Ending call.",
+  };
+
+  const completeMessage: ToolMessageComplete = {
+    type: "request-complete",
+    content: "Goodbye.",
     endCallAfterSpokenEnabled: true,
   };
 
   return {
-    type: "endCall",
-    messages: [startMessage, failedMessage],
+    type: "function",
+    function: endCallFunction,
+    messages: [startMessage, completeMessage],
   };
 };

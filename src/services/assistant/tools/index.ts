@@ -15,6 +15,6 @@ export const getTools = (
 > => {
   const transferCallTool = getTransferCallTool(config);
   const authenticateUserTool = getAuthenticateUserTool(config);
-  const endCallTool = getEndCallTool();
+  const endCallTool = getEndCallTool(config);
   return [transferCallTool, authenticateUserTool, endCallTool];
 };
