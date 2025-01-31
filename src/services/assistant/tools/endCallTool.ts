@@ -2,7 +2,6 @@ import {
   CreateFunctionToolDto,
   OpenAiFunction,
   ToolMessageComplete,
-  ToolMessageStart,
 } from "@vapi-ai/server-sdk/api/types";
 import { EnvConfig } from "../../../config/env.config";
 
@@ -22,11 +21,6 @@ export const getEndCallTool = (config: EnvConfig): CreateFunctionToolDto => {
     },
   };
 
-  const startMessage: ToolMessageStart = {
-    type: "request-start",
-    content: "Ending call.",
-  };
-
   const completeMessage: ToolMessageComplete = {
     type: "request-complete",
     content: "Goodbye.",
@@ -36,6 +30,6 @@ export const getEndCallTool = (config: EnvConfig): CreateFunctionToolDto => {
   return {
     type: "function",
     function: endCallFunction,
-    messages: [startMessage, completeMessage],
+    messages: [completeMessage],
   };
 };
