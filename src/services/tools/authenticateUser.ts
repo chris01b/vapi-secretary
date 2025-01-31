@@ -1,5 +1,6 @@
 import {
   ServerMessageResponse,
+  ServerMessageResponseToolCalls,
   ToolCallResult,
   ToolMessageComplete,
   ToolMessageFailed,
@@ -13,12 +14,12 @@ export const authenticateUser = async (
   name: string,
   toolCallId: string,
   config: EnvConfig
-): Promise<ServerMessageResponse> => {
-  const { firstName, lastName, reasonForCalling } = params;
-
-  console.log("authenticateUser:", firstName, lastName, reasonForCalling);
-
+): Promise<ServerMessageResponseToolCalls> => {
   try {
+    const { firstName, lastName, reasonForCalling } = params;
+
+    console.log("authenticateUser:", firstName, lastName, reasonForCalling);
+
     // TODO: Perform actual authentication logic here
     const isAuthenticated = true;
 
@@ -46,19 +47,16 @@ export const authenticateUser = async (
       };
 
       return {
-        messageResponse: { results: [toolCallResult] },
+        results: [toolCallResult],
       };
     } else {
       const rejectedMessage: ToolMessageComplete = {
         type: "request-complete",
         content: `{
-  "id": "7_end_call",
-  "description": "End the call immediately.",
+  "id": "8_end_call_with_message",
+  "description": "End the call with a message for {{name}}.",
   "instructions": [
-    "Call the 'endCall' function right now."
-  ],
-  "examples": [
-    "Goodbye!"
+    "Call the 'endCall' function with parameter 'message'"
   ]
 }`,
         role: ToolMessageCompleteRole.System,
@@ -72,7 +70,7 @@ export const authenticateUser = async (
       };
 
       return {
-        messageResponse: { results: [toolCallResult] },
+        results: [toolCallResult],
       };
     }
   } catch (error) {
@@ -80,7 +78,8 @@ export const authenticateUser = async (
 
     const failedMessage: ToolMessageFailed = {
       type: "request-failed",
-      content: "DEBUG: Authentication failed due to an internal error. Ending call now.",
+      content:
+        "DEBUG: Authentication failed due to an internal error. Ending call now.",
       endCallAfterSpokenEnabled: true,
     };
 
@@ -92,7 +91,7 @@ export const authenticateUser = async (
     };
 
     return {
-      messageResponse: { results: [toolCallResult] },
+      results: [toolCallResult],
     };
   }
 };
