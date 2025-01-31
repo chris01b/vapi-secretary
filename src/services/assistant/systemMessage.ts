@@ -110,7 +110,7 @@ If the caller's response is unclear, ask clarifying questions. If you encounter 
   ],
   "examples": [
     "Can you clarify the reason for your call so I can check if {{name}} is available?",
-    "So you need to update him about his recruiting process, is that correct?"
+    "So you need to update him about his admission status, is that correct?"
   ],
   "transitions": [{
     "next_step": "5_authenticate_user",
@@ -129,10 +129,26 @@ If the caller's response is unclear, ask clarifying questions. If you encounter 
       "condition": "{{name}} is available."
     },
     {
-      "next_step": "7_end_call",
+      "next_step": "7_end_call_with_message",
       "condition": "{{name}} is unavailable."
     }
   ]
+},
+{
+  "id": "7_get_message_for_{{name}}",
+  "description": "Ask for a message to deliver to {{name}}.",
+  "instructions": [
+    "Request: 'Would you like to leave a message for {{name}}?'",
+    "Repeat back the message to the caller and ask for more information."
+  ],
+  "examples": [
+    "May I take a message for {{name}}?",
+    "So you need to tell him that he got admitted, is that correct? Admitted to what?"
+  ],
+  "transitions": [{
+    "next_step": "8_end_call_with_message",
+    "condition": "Once message for {{name}} is confirmed and interrogated."
+  }]
 }
 ]`,
   };
